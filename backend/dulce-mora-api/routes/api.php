@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RolController;
 use App\Http\Controllers\Api\SedeController;
 use App\Http\Controllers\Api\CategoriaController;
@@ -37,49 +38,105 @@ use App\Http\Controllers\Api\CarritoController;
 use App\Http\Controllers\Api\AuditoriaController;
 use App\Http\Controllers\Api\SesionUsuarioController;
 use App\Http\Controllers\Api\RecuperacionContrasenaController;
-use App\Http\Controllers\Api\AuthController;
 
 Route::prefix('v1')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rutas públicas
+    Estas rutas se pueden usar sin token.
+    */
+
     Route::post('login', [AuthController::class, 'login']);
 
+    Route::apiResource('categorias', CategoriaController::class)->only([
+        'index',
+        'show',
+    ]);
+
+    Route::apiResource('productos', ProductoController::class)->only([
+        'index',
+        'show',
+    ]);
+
+    Route::apiResource('banners', BannerController::class)->only([
+        'index',
+        'show',
+    ]);
+
+    Route::apiResource('configuraciones', ConfiguracionController::class)->only([
+        'index',
+        'show',
+    ]);
+
+    Route::apiResource('contactos', ContactoController::class)->only([
+        'store',
+    ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rutas protegidas
+    |--------------------------------------------------------------------------
+    | Estas rutas requieren token Bearer generado por Sanctum.
+    */
+
     Route::middleware('auth:sanctum')->group(function () {
+
         Route::get('me', [AuthController::class, 'me']);
         Route::post('logout', [AuthController::class, 'logout']);
+
+        Route::apiResource('roles', RolController::class);
+        Route::apiResource('sedes', SedeController::class);
+
+        Route::apiResource('categorias', CategoriaController::class)->except([
+            'index',
+            'show',
+        ]);
+
+        Route::apiResource('productos', ProductoController::class)->except([
+            'index',
+            'show',
+        ]);
+
+        Route::apiResource('clientes', ClienteController::class);
+
+        Route::apiResource('ventas', VentaController::class);
+        Route::apiResource('detalle-ventas', DetalleVentaController::class);
+
+        Route::apiResource('pedidos', PedidoController::class);
+        Route::apiResource('detalle-pedidos', DetallePedidoController::class);
+
+        Route::apiResource('stock', StockController::class);
+        Route::apiResource('movimientos-stock', MovimientoStockController::class);
+
+        Route::apiResource('promociones', PromocionController::class);
+        Route::apiResource('promociones-productos', PromocionProductoController::class);
+
+        Route::apiResource('recompensas', RecompensaController::class);
+        Route::apiResource('comprobantes', ComprobanteController::class);
+        Route::apiResource('cajas', CajaController::class);
+        Route::apiResource('pagos', PagoController::class);
+
+        Route::apiResource('proveedores', ProveedorController::class);
+        Route::apiResource('compras', CompraController::class);
+        Route::apiResource('detalle-compras', DetalleCompraController::class);
+        Route::apiResource('deliveries', DeliveryController::class);
+
+        Route::apiResource('reservas', ReservaController::class);
+        Route::apiResource('detalle-reservas', DetalleReservaController::class);
+
+        Route::apiResource('opiniones', OpinionController::class);
+        Route::apiResource('notificaciones', NotificacionController::class);
+        Route::apiResource('favoritos', FavoritoController::class);
+
+        Route::apiResource('cupones', CuponController::class);
+        Route::apiResource('cupones-clientes', CuponClienteController::class);
+
+        Route::apiResource('historial-estados-pedidos', HistorialEstadoPedidoController::class);
+        Route::apiResource('carritos', CarritoController::class);
+
+        Route::apiResource('auditorias', AuditoriaController::class);
+        Route::apiResource('sesiones-usuarios', SesionUsuarioController::class);
+        Route::apiResource('recuperaciones-contrasenas', RecuperacionContrasenaController::class);
     });
-    Route::apiResource('roles', RolController::class);
-    Route::apiResource('sedes', SedeController::class);
-    Route::apiResource('categorias', CategoriaController::class);
-    Route::apiResource('productos', ProductoController::class);
-    Route::apiResource('clientes', ClienteController::class);
-    Route::apiResource('ventas', VentaController::class);
-    Route::apiResource('detalle-ventas', DetalleVentaController::class);
-    Route::apiResource('pedidos', PedidoController::class);
-    Route::apiResource('detalle-pedidos', DetallePedidoController::class);
-    Route::apiResource('stock', StockController::class);
-    Route::apiResource('movimientos-stock', MovimientoStockController::class);
-    Route::apiResource('promociones', PromocionController::class);
-    Route::apiResource('promociones-productos', PromocionProductoController::class);
-    Route::apiResource('recompensas', RecompensaController::class);
-    Route::apiResource('comprobantes', ComprobanteController::class);
-    Route::apiResource('cajas', CajaController::class);
-    Route::apiResource('pagos', PagoController::class);
-    Route::apiResource('proveedores', ProveedorController::class);
-    Route::apiResource('compras', CompraController::class);
-    Route::apiResource('detalle-compras', DetalleCompraController::class);
-    Route::apiResource('deliveries', DeliveryController::class);
-    Route::apiResource('reservas', ReservaController::class);
-    Route::apiResource('detalle-reservas', DetalleReservaController::class);
-    Route::apiResource('opiniones', OpinionController::class);
-    Route::apiResource('contactos', ContactoController::class);
-    Route::apiResource('configuraciones', ConfiguracionController::class);
-    Route::apiResource('banners', BannerController::class);
-    Route::apiResource('notificaciones', NotificacionController::class);
-    Route::apiResource('favoritos', FavoritoController::class);
-    Route::apiResource('cupones', CuponController::class);
-    Route::apiResource('cupones-clientes', CuponClienteController::class);
-    Route::apiResource('historial-estados-pedidos', HistorialEstadoPedidoController::class);
-    Route::apiResource('carritos', CarritoController::class);
-    Route::apiResource('auditorias', AuditoriaController::class);
-    Route::apiResource('sesiones-usuarios', SesionUsuarioController::class);
-    Route::apiResource('recuperaciones-contrasenas', RecuperacionContrasenaController::class);
 });
