@@ -68,63 +68,85 @@ Route::prefix('v1')->group(function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Rutas solo para Administrador
+        | Administrador
         |--------------------------------------------------------------------------
         */
 
         Route::middleware('rol:Administrador')->group(function () {
             Route::apiResource('roles', RolController::class);
             Route::apiResource('sedes', SedeController::class);
-            Route::apiResource('clientes', ClienteController::class);
 
-            Route::apiResource('stock', StockController::class);
+            Route::post('stock', [StockController::class, 'store']);
+            Route::put('stock/{stock}', [StockController::class, 'update']);
+            Route::patch('stock/{stock}', [StockController::class, 'update']);
+            Route::delete('stock/{stock}', [StockController::class, 'destroy']);
+
             Route::apiResource('movimientos-stock', MovimientoStockController::class);
 
+            Route::apiResource('proveedores', ProveedorController::class);
+            Route::apiResource('compras', CompraController::class);
+            Route::apiResource('detalle-compras', DetalleCompraController::class);
+
+            Route::apiResource('cajas', CajaController::class);
             Route::apiResource('auditorias', AuditoriaController::class);
             Route::apiResource('sesiones-usuarios', SesionUsuarioController::class);
+
+            Route::apiResource('categorias', CategoriaController::class)->except(['index', 'show']);
+            Route::apiResource('productos', ProductoController::class)->except(['index', 'show']);
+
+            Route::apiResource('promociones', PromocionController::class);
+            Route::apiResource('promociones-productos', PromocionProductoController::class);
+
+            Route::apiResource('banners', BannerController::class)->except(['index', 'show']);
+            Route::apiResource('configuraciones', ConfiguracionController::class)->except(['index', 'show']);
         });
 
         /*
         |--------------------------------------------------------------------------
-        | Rutas protegidas generales
+        | Administrador y Vendedor
         |--------------------------------------------------------------------------
         */
 
-        Route::apiResource('categorias', CategoriaController::class)->except(['index', 'show']);
-        Route::apiResource('productos', ProductoController::class)->except(['index', 'show']);
+        Route::middleware('rol:Administrador,Vendedor')->group(function () {
+            Route::apiResource('clientes', ClienteController::class);
 
-        Route::apiResource('ventas', VentaController::class);
-        Route::apiResource('detalle-ventas', DetalleVentaController::class);
+            Route::post('ventas-completa', [VentaController::class, 'registrarCompleta']);
+            Route::apiResource('ventas', VentaController::class);
+            Route::apiResource('detalle-ventas', DetalleVentaController::class);
 
-        Route::apiResource('pedidos', PedidoController::class);
-        Route::apiResource('detalle-pedidos', DetallePedidoController::class);
+            Route::apiResource('pedidos', PedidoController::class);
+            Route::apiResource('detalle-pedidos', DetallePedidoController::class);
 
-        Route::apiResource('promociones', PromocionController::class);
-        Route::apiResource('promociones-productos', PromocionProductoController::class);
+            Route::apiResource('pagos', PagoController::class);
+            Route::apiResource('comprobantes', ComprobanteController::class);
 
-        Route::apiResource('recompensas', RecompensaController::class);
-        Route::apiResource('comprobantes', ComprobanteController::class);
-        Route::apiResource('cajas', CajaController::class);
-        Route::apiResource('pagos', PagoController::class);
+            Route::apiResource('deliveries', DeliveryController::class);
 
-        Route::apiResource('proveedores', ProveedorController::class);
-        Route::apiResource('compras', CompraController::class);
-        Route::apiResource('detalle-compras', DetalleCompraController::class);
-        Route::apiResource('deliveries', DeliveryController::class);
+            Route::get('stock', [StockController::class, 'index']);
+            Route::get('stock/{stock}', [StockController::class, 'show']);
+        });
 
-        Route::apiResource('reservas', ReservaController::class);
-        Route::apiResource('detalle-reservas', DetalleReservaController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Cliente / Web
+        |--------------------------------------------------------------------------
+        */
 
-        Route::apiResource('opiniones', OpinionController::class);
-        Route::apiResource('notificaciones', NotificacionController::class);
-        Route::apiResource('favoritos', FavoritoController::class);
+        Route::middleware('rol:Administrador,Vendedor,Cliente')->group(function () {
+            Route::apiResource('reservas', ReservaController::class);
+            Route::apiResource('detalle-reservas', DetalleReservaController::class);
 
-        Route::apiResource('cupones', CuponController::class);
-        Route::apiResource('cupones-clientes', CuponClienteController::class);
+            Route::apiResource('opiniones', OpinionController::class);
+            Route::apiResource('favoritos', FavoritoController::class);
+            Route::apiResource('carritos', CarritoController::class);
 
-        Route::apiResource('historial-estados-pedidos', HistorialEstadoPedidoController::class);
-        Route::apiResource('carritos', CarritoController::class);
+            Route::apiResource('cupones', CuponController::class);
+            Route::apiResource('cupones-clientes', CuponClienteController::class);
 
-        Route::apiResource('recuperaciones-contrasenas', RecuperacionContrasenaController::class);
+            Route::apiResource('recompensas', RecompensaController::class);
+            Route::apiResource('notificaciones', NotificacionController::class);
+            Route::apiResource('historial-estados-pedidos', HistorialEstadoPedidoController::class);
+            Route::apiResource('recuperaciones-contrasenas', RecuperacionContrasenaController::class);
+        });
     });
 });
