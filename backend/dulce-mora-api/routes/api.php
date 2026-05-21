@@ -44,40 +44,21 @@ Route::prefix('v1')->group(function () {
     /*
     |--------------------------------------------------------------------------
     | Rutas públicas
-    Estas rutas se pueden usar sin token.
+    |--------------------------------------------------------------------------
     */
 
     Route::post('login', [AuthController::class, 'login']);
 
-    Route::apiResource('categorias', CategoriaController::class)->only([
-        'index',
-        'show',
-    ]);
-
-    Route::apiResource('productos', ProductoController::class)->only([
-        'index',
-        'show',
-    ]);
-
-    Route::apiResource('banners', BannerController::class)->only([
-        'index',
-        'show',
-    ]);
-
-    Route::apiResource('configuraciones', ConfiguracionController::class)->only([
-        'index',
-        'show',
-    ]);
-
-    Route::apiResource('contactos', ContactoController::class)->only([
-        'store',
-    ]);
+    Route::apiResource('categorias', CategoriaController::class)->only(['index', 'show']);
+    Route::apiResource('productos', ProductoController::class)->only(['index', 'show']);
+    Route::apiResource('banners', BannerController::class)->only(['index', 'show']);
+    Route::apiResource('configuraciones', ConfiguracionController::class)->only(['index', 'show']);
+    Route::apiResource('contactos', ContactoController::class)->only(['store']);
 
     /*
     |--------------------------------------------------------------------------
     | Rutas protegidas
     |--------------------------------------------------------------------------
-    | Estas rutas requieren token Bearer generado por Sanctum.
     */
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -85,29 +66,38 @@ Route::prefix('v1')->group(function () {
         Route::get('me', [AuthController::class, 'me']);
         Route::post('logout', [AuthController::class, 'logout']);
 
-        Route::apiResource('roles', RolController::class);
-        Route::apiResource('sedes', SedeController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Rutas solo para Administrador
+        |--------------------------------------------------------------------------
+        */
 
-        Route::apiResource('categorias', CategoriaController::class)->except([
-            'index',
-            'show',
-        ]);
+        Route::middleware('rol:Administrador')->group(function () {
+            Route::apiResource('roles', RolController::class);
+            Route::apiResource('sedes', SedeController::class);
+            Route::apiResource('clientes', ClienteController::class);
 
-        Route::apiResource('productos', ProductoController::class)->except([
-            'index',
-            'show',
-        ]);
+            Route::apiResource('stock', StockController::class);
+            Route::apiResource('movimientos-stock', MovimientoStockController::class);
 
-        Route::apiResource('clientes', ClienteController::class);
+            Route::apiResource('auditorias', AuditoriaController::class);
+            Route::apiResource('sesiones-usuarios', SesionUsuarioController::class);
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Rutas protegidas generales
+        |--------------------------------------------------------------------------
+        */
+
+        Route::apiResource('categorias', CategoriaController::class)->except(['index', 'show']);
+        Route::apiResource('productos', ProductoController::class)->except(['index', 'show']);
 
         Route::apiResource('ventas', VentaController::class);
         Route::apiResource('detalle-ventas', DetalleVentaController::class);
 
         Route::apiResource('pedidos', PedidoController::class);
         Route::apiResource('detalle-pedidos', DetallePedidoController::class);
-
-        Route::apiResource('stock', StockController::class);
-        Route::apiResource('movimientos-stock', MovimientoStockController::class);
 
         Route::apiResource('promociones', PromocionController::class);
         Route::apiResource('promociones-productos', PromocionProductoController::class);
@@ -135,8 +125,6 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('historial-estados-pedidos', HistorialEstadoPedidoController::class);
         Route::apiResource('carritos', CarritoController::class);
 
-        Route::apiResource('auditorias', AuditoriaController::class);
-        Route::apiResource('sesiones-usuarios', SesionUsuarioController::class);
         Route::apiResource('recuperaciones-contrasenas', RecuperacionContrasenaController::class);
     });
 });
