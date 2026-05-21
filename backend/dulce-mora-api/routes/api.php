@@ -37,8 +37,15 @@ use App\Http\Controllers\Api\CarritoController;
 use App\Http\Controllers\Api\AuditoriaController;
 use App\Http\Controllers\Api\SesionUsuarioController;
 use App\Http\Controllers\Api\RecuperacionContrasenaController;
+use App\Http\Controllers\Api\AuthController;
 
 Route::prefix('v1')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('me', [AuthController::class, 'me']);
+        Route::post('logout', [AuthController::class, 'logout']);
+    });
     Route::apiResource('roles', RolController::class);
     Route::apiResource('sedes', SedeController::class);
     Route::apiResource('categorias', CategoriaController::class);
