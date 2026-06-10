@@ -14,7 +14,11 @@ class CategoriaController extends Controller
 {
     public function index()
     {
-        return response()->json(Categoria::all(), 200);
+        $categorias = Categoria::withCount('productos')
+            ->orderBy('id_categoria', 'desc')
+            ->get();
+
+        return response()->json($categorias, 200);
     }
 
     public function store(Request $request)
@@ -22,14 +26,16 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre_categoria' => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:200',
-            'estado' => 'boolean',
+            'estado' => 'nullable|boolean',
         ]);
 
-        $categoria = Categoria::create($request->only([
-            'nombre_categoria',
-            'descripcion',
-            'estado',
-        ]));
+        $categoria = Categoria::create([
+            'nombre_categoria' => $request->nombre_categoria,
+            'descripcion' => $request->descripcion,
+            'estado' => $request->has('estado') ? $request->estado : true,
+        ]);
+
+        $categoria->loadCount('productos');
 
         return response()->json([
             'message' => 'Categoría registrada correctamente',
@@ -39,10 +45,12 @@ class CategoriaController extends Controller
 
     public function show($id)
     {
-        $categoria = Categoria::find($id);
+        $categoria = Categoria::withCount('productos')->find($id);
 
         if (!$categoria) {
-            return response()->json(['message' => 'Categoría no encontrada'], 404);
+            return response()->json([
+                'message' => 'Categoría no encontrada',
+            ], 404);
         }
 
         return response()->json($categoria, 200);
@@ -53,20 +61,24 @@ class CategoriaController extends Controller
         $categoria = Categoria::find($id);
 
         if (!$categoria) {
-            return response()->json(['message' => 'Categoría no encontrada'], 404);
+            return response()->json([
+                'message' => 'Categoría no encontrada',
+            ], 404);
         }
 
         $request->validate([
             'nombre_categoria' => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:200',
-            'estado' => 'boolean',
+            'estado' => 'nullable|boolean',
         ]);
 
-        $categoria->update($request->only([
-            'nombre_categoria',
-            'descripcion',
-            'estado',
-        ]));
+        $categoria->update([
+            'nombre_categoria' => $request->nombre_categoria,
+            'descripcion' => $request->descripcion,
+            'estado' => $request->has('estado') ? $request->estado : $categoria->estado,
+        ]);
+
+        $categoria->loadCount('productos');
 
         return response()->json([
             'message' => 'Categoría actualizada correctamente',
@@ -79,13 +91,48 @@ class CategoriaController extends Controller
         $categoria = Categoria::find($id);
 
         if (!$categoria) {
-            return response()->json(['message' => 'Categoría no encontrada'], 404);
+            return response()->json([
+                'message' => 'Categoría no encontrada',
+            ], 404);
         }
 
-        $categoria->delete();
+        /*
+         * No se elimina físicamente porque la categoría puede tener
+         * productos relacionados. Solo se cambia a estado inactivo.
+         */
+        $categoria->update([
+            'estado' => false,
+        ]);
+
+        $categoria->loadCount('productos');
 
         return response()->json([
-            'message' => 'Categoría eliminada correctamente',
+            'message' => 'Categoría desactivada correctamente',
+            'data' => $categoria,
+        ], 200);
+    }
+
+    public function cambiarEstado($id)
+    {
+        $categoria = Categoria::find($id);
+
+        if (!$categoria) {
+            return response()->json([
+                'message' => 'Categoría no encontrada',
+            ], 404);
+        }
+
+        $categoria->update([
+            'estado' => !$categoria->estado,
+        ]);
+
+        $categoria->loadCount('productos');
+
+        return response()->json([
+            'message' => $categoria->estado
+                ? 'Categoría activada correctamente'
+                : 'Categoría desactivada correctamente',
+            'data' => $categoria,
         ], 200);
     }
 }

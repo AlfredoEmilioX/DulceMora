@@ -20,6 +20,10 @@ class Categoria extends Model
         'estado',
     ];
 
+    protected $casts = [
+        'estado' => 'boolean',
+    ];
+
     public function productos()
     {
         return $this->hasMany(Producto::class, 'id_categoria', 'id_categoria');

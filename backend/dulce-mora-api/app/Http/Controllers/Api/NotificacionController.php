@@ -8,13 +8,32 @@ use Illuminate\Http\Request;
 
 /**
  * Controlador: NotificacionController
- * Uso: CRUD API para notificaciones internas.
+ * Uso: Gestiona notificaciones internas del sistema.
  */
 class NotificacionController extends Controller
 {
     public function index()
     {
-        return response()->json(Notificacion::with('usuario')->get(), 200);
+        $notificaciones = Notificacion::with('usuario')
+            ->orderBy('id_notificacion', 'desc')
+            ->get();
+
+        return response()->json($notificaciones, 200);
+    }
+
+    public function resumen()
+    {
+        $total = Notificacion::count();
+        $noLeidas = Notificacion::where('leido', false)->count();
+        $leidas = Notificacion::where('leido', true)->count();
+        $hoy = Notificacion::whereDate('created_at', now()->toDateString())->count();
+
+        return response()->json([
+            'total' => $total,
+            'no_leidas' => $noLeidas,
+            'leidas' => $leidas,
+            'hoy' => $hoy,
+        ], 200);
     }
 
     public function store(Request $request)
@@ -24,20 +43,20 @@ class NotificacionController extends Controller
             'titulo' => 'required|string|max:120',
             'mensaje' => 'required|string',
             'tipo' => 'nullable|string|max:30',
-            'leido' => 'boolean',
+            'leido' => 'nullable|boolean',
         ]);
 
-        $notificacion = Notificacion::create($request->only([
-            'id_usuario',
-            'titulo',
-            'mensaje',
-            'tipo',
-            'leido',
-        ]));
+        $notificacion = Notificacion::create([
+            'id_usuario' => $request->id_usuario,
+            'titulo' => $request->titulo,
+            'mensaje' => $request->mensaje,
+            'tipo' => $request->tipo,
+            'leido' => $request->leido ?? false,
+        ]);
 
         return response()->json([
             'message' => 'Notificación registrada correctamente',
-            'data' => $notificacion,
+            'data' => $notificacion->load('usuario'),
         ], 201);
     }
 
@@ -46,7 +65,9 @@ class NotificacionController extends Controller
         $notificacion = Notificacion::with('usuario')->find($id);
 
         if (!$notificacion) {
-            return response()->json(['message' => 'Notificación no encontrada'], 404);
+            return response()->json([
+                'message' => 'Notificación no encontrada',
+            ], 404);
         }
 
         return response()->json($notificacion, 200);
@@ -57,7 +78,9 @@ class NotificacionController extends Controller
         $notificacion = Notificacion::find($id);
 
         if (!$notificacion) {
-            return response()->json(['message' => 'Notificación no encontrada'], 404);
+            return response()->json([
+                'message' => 'Notificación no encontrada',
+            ], 404);
         }
 
         $request->validate([
@@ -65,19 +88,59 @@ class NotificacionController extends Controller
             'titulo' => 'required|string|max:120',
             'mensaje' => 'required|string',
             'tipo' => 'nullable|string|max:30',
-            'leido' => 'boolean',
+            'leido' => 'nullable|boolean',
         ]);
 
-        $notificacion->update($request->only([
-            'id_usuario',
-            'titulo',
-            'mensaje',
-            'tipo',
-            'leido',
-        ]));
+        $notificacion->update([
+            'id_usuario' => $request->id_usuario,
+            'titulo' => $request->titulo,
+            'mensaje' => $request->mensaje,
+            'tipo' => $request->tipo,
+            'leido' => $request->leido ?? false,
+        ]);
 
         return response()->json([
             'message' => 'Notificación actualizada correctamente',
+            'data' => $notificacion->load('usuario'),
+        ], 200);
+    }
+
+    public function marcarLeida($id)
+    {
+        $notificacion = Notificacion::find($id);
+
+        if (!$notificacion) {
+            return response()->json([
+                'message' => 'Notificación no encontrada',
+            ], 404);
+        }
+
+        $notificacion->update([
+            'leido' => true,
+        ]);
+
+        return response()->json([
+            'message' => 'Notificación marcada como leída',
+            'data' => $notificacion,
+        ], 200);
+    }
+
+    public function marcarNoLeida($id)
+    {
+        $notificacion = Notificacion::find($id);
+
+        if (!$notificacion) {
+            return response()->json([
+                'message' => 'Notificación no encontrada',
+            ], 404);
+        }
+
+        $notificacion->update([
+            'leido' => false,
+        ]);
+
+        return response()->json([
+            'message' => 'Notificación marcada como no leída',
             'data' => $notificacion,
         ], 200);
     }
@@ -87,7 +150,9 @@ class NotificacionController extends Controller
         $notificacion = Notificacion::find($id);
 
         if (!$notificacion) {
-            return response()->json(['message' => 'Notificación no encontrada'], 404);
+            return response()->json([
+                'message' => 'Notificación no encontrada',
+            ], 404);
         }
 
         $notificacion->delete();

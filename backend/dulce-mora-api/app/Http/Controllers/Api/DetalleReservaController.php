@@ -4,99 +4,61 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DetalleReserva;
-use Illuminate\Http\Request;
 
 /**
  * Controlador: DetalleReservaController
- * Uso: CRUD API para detalle de reservas.
+ * Uso: Consulta detalles de reservas.
  */
 class DetalleReservaController extends Controller
 {
     public function index()
     {
-        return response()->json(
-            DetalleReserva::with(['reserva', 'producto'])->get(),
-            200
-        );
-    }
+        $detalles = DetalleReserva::with([
+            'reserva.cliente',
+            'reserva.sede',
+            'producto.categoria',
+        ])
+            ->orderBy('id_detalle_reserva', 'desc')
+            ->get();
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_reserva' => 'required|exists:reservas,id_reserva',
-            'id_producto' => 'required|exists:productos,id_producto',
-            'cantidad' => 'required|integer|min:1',
-            'precio_unitario' => 'required|numeric|min:0',
-            'subtotal' => 'required|numeric|min:0',
-        ]);
-
-        $detalle = DetalleReserva::create($request->only([
-            'id_reserva',
-            'id_producto',
-            'cantidad',
-            'precio_unitario',
-            'subtotal',
-        ]));
-
-        return response()->json([
-            'message' => 'Detalle de reserva registrado correctamente',
-            'data' => $detalle,
-        ], 201);
+        return response()->json($detalles, 200);
     }
 
     public function show($id)
     {
-        $detalle = DetalleReserva::with(['reserva', 'producto'])->find($id);
+        $detalle = DetalleReserva::with([
+            'reserva.cliente',
+            'reserva.sede',
+            'producto.categoria',
+        ])->find($id);
 
         if (!$detalle) {
-            return response()->json(['message' => 'Detalle de reserva no encontrado'], 404);
+            return response()->json([
+                'message' => 'Detalle de reserva no encontrado',
+            ], 404);
         }
 
         return response()->json($detalle, 200);
     }
 
-    public function update(Request $request, $id)
+    public function store()
     {
-        $detalle = DetalleReserva::find($id);
-
-        if (!$detalle) {
-            return response()->json(['message' => 'Detalle de reserva no encontrado'], 404);
-        }
-
-        $request->validate([
-            'id_reserva' => 'required|exists:reservas,id_reserva',
-            'id_producto' => 'required|exists:productos,id_producto',
-            'cantidad' => 'required|integer|min:1',
-            'precio_unitario' => 'required|numeric|min:0',
-            'subtotal' => 'required|numeric|min:0',
-        ]);
-
-        $detalle->update($request->only([
-            'id_reserva',
-            'id_producto',
-            'cantidad',
-            'precio_unitario',
-            'subtotal',
-        ]));
-
         return response()->json([
-            'message' => 'Detalle de reserva actualizado correctamente',
-            'data' => $detalle,
-        ], 200);
+            'message' => 'Los detalles se registran desde el módulo de reservas.',
+        ], 405);
     }
 
-    public function destroy($id)
+    public function update()
     {
-        $detalle = DetalleReserva::find($id);
-
-        if (!$detalle) {
-            return response()->json(['message' => 'Detalle de reserva no encontrado'], 404);
-        }
-
-        $detalle->delete();
-
         return response()->json([
-            'message' => 'Detalle de reserva eliminado correctamente',
-        ], 200);
+            'message' => 'Los detalles de reserva no se editan directamente.',
+        ], 405);
+    }
+
+    public function destroy()
+    {
+        return response()->json([
+            'message' => 'Los detalles de reserva no se eliminan directamente.',
+        ], 405);
     }
 }

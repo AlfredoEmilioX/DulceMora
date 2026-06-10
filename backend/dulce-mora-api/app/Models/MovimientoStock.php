@@ -24,6 +24,12 @@ class MovimientoStock extends Model
         'motivo',
     ];
 
+    protected $casts = [
+        'cantidad' => 'integer',
+        'stock_anterior' => 'integer',
+        'stock_actual' => 'integer',
+    ];
+
     public function stock()
     {
         return $this->belongsTo(Stock::class, 'id_stock', 'id_stock');

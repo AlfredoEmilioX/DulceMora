@@ -8,13 +8,18 @@ use Illuminate\Http\Request;
 
 /**
  * Controlador: ProductoController
- * Uso: CRUD API para productos del catálogo.
+ * Uso: CRUD API para productos del catálogo general.
  */
 class ProductoController extends Controller
 {
     public function index()
     {
-        $productos = Producto::with('categoria')->get();
+        $productos = Producto::with([
+            'categoria',
+            'stock.sede',
+        ])
+            ->orderBy('id_producto', 'desc')
+            ->get();
 
         return response()->json($productos, 200);
     }
@@ -27,17 +32,22 @@ class ProductoController extends Controller
             'descripcion' => 'nullable|string|max:250',
             'precio' => 'required|numeric|min:0',
             'imagen' => 'nullable|string|max:255',
-            'estado' => 'boolean',
+            'estado' => 'nullable|boolean',
         ]);
 
-        $producto = Producto::create($request->only([
-            'id_categoria',
-            'nombre_producto',
-            'descripcion',
-            'precio',
-            'imagen',
-            'estado',
-        ]));
+        $producto = Producto::create([
+            'id_categoria' => $request->id_categoria,
+            'nombre_producto' => $request->nombre_producto,
+            'descripcion' => $request->descripcion,
+            'precio' => $request->precio,
+            'imagen' => $request->imagen,
+            'estado' => $request->has('estado') ? $request->estado : true,
+        ]);
+
+        $producto->load([
+            'categoria',
+            'stock.sede',
+        ]);
 
         return response()->json([
             'message' => 'Producto registrado correctamente',
@@ -47,10 +57,15 @@ class ProductoController extends Controller
 
     public function show($id)
     {
-        $producto = Producto::with('categoria')->find($id);
+        $producto = Producto::with([
+            'categoria',
+            'stock.sede',
+        ])->find($id);
 
         if (!$producto) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
+            return response()->json([
+                'message' => 'Producto no encontrado',
+            ], 404);
         }
 
         return response()->json($producto, 200);
@@ -61,7 +76,9 @@ class ProductoController extends Controller
         $producto = Producto::find($id);
 
         if (!$producto) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
+            return response()->json([
+                'message' => 'Producto no encontrado',
+            ], 404);
         }
 
         $request->validate([
@@ -70,17 +87,22 @@ class ProductoController extends Controller
             'descripcion' => 'nullable|string|max:250',
             'precio' => 'required|numeric|min:0',
             'imagen' => 'nullable|string|max:255',
-            'estado' => 'boolean',
+            'estado' => 'nullable|boolean',
         ]);
 
-        $producto->update($request->only([
-            'id_categoria',
-            'nombre_producto',
-            'descripcion',
-            'precio',
-            'imagen',
-            'estado',
-        ]));
+        $producto->update([
+            'id_categoria' => $request->id_categoria,
+            'nombre_producto' => $request->nombre_producto,
+            'descripcion' => $request->descripcion,
+            'precio' => $request->precio,
+            'imagen' => $request->imagen,
+            'estado' => $request->has('estado') ? $request->estado : $producto->estado,
+        ]);
+
+        $producto->load([
+            'categoria',
+            'stock.sede',
+        ]);
 
         return response()->json([
             'message' => 'Producto actualizado correctamente',
@@ -93,13 +115,55 @@ class ProductoController extends Controller
         $producto = Producto::find($id);
 
         if (!$producto) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
+            return response()->json([
+                'message' => 'Producto no encontrado',
+            ], 404);
         }
 
-        $producto->delete();
+        /*
+         * No se elimina físicamente porque el producto puede estar
+         * relacionado con ventas, pedidos o movimientos de stock.
+         * Solo se cambia el estado a inactivo.
+         */
+        $producto->update([
+            'estado' => false,
+        ]);
+
+        $producto->load([
+            'categoria',
+            'stock.sede',
+        ]);
 
         return response()->json([
-            'message' => 'Producto eliminado correctamente',
+            'message' => 'Producto desactivado correctamente',
+            'data' => $producto,
+        ], 200);
+    }
+
+    public function cambiarEstado($id)
+    {
+        $producto = Producto::find($id);
+
+        if (!$producto) {
+            return response()->json([
+                'message' => 'Producto no encontrado',
+            ], 404);
+        }
+
+        $producto->update([
+            'estado' => !$producto->estado,
+        ]);
+
+        $producto->load([
+            'categoria',
+            'stock.sede',
+        ]);
+
+        return response()->json([
+            'message' => $producto->estado
+                ? 'Producto activado correctamente'
+                : 'Producto desactivado correctamente',
+            'data' => $producto,
         ], 200);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Modelo: Comprobante
  * Tabla: comprobantes
- * Uso: Gestiona boletas, facturas o tickets de venta.
+ * Uso: Gestiona boletas, facturas o tickets internos de venta.
  */
 class Comprobante extends Model
 {
@@ -20,6 +20,12 @@ class Comprobante extends Model
         'serie',
         'numero',
         'fecha_emision',
+
+        'tipo_documento_cliente',
+        'numero_documento_cliente',
+        'nombre_cliente',
+        'direccion_cliente',
+
         'subtotal',
         'igv',
         'total',

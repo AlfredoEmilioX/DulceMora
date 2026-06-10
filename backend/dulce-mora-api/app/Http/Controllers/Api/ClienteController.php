@@ -20,22 +20,26 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'dni' => 'nullable|string|size:8|unique:clientes,dni',
             'nombres' => 'required|string|max:100',
-            'apellidos' => 'nullable|string|max:100',
-            'documento' => 'nullable|string|max:20|unique:clientes,documento',
+            'apellidos' => 'required|string|max:100',
             'telefono' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:150|unique:clientes,email',
+            'fecha_nacimiento' => 'nullable|date',
             'direccion' => 'nullable|string|max:200',
+            'acepta_promociones' => 'boolean',
             'estado' => 'boolean',
         ]);
 
         $cliente = Cliente::create($request->only([
+            'dni',
             'nombres',
             'apellidos',
-            'documento',
             'telefono',
             'email',
+            'fecha_nacimiento',
             'direccion',
+            'acepta_promociones',
             'estado',
         ]));
 
@@ -50,7 +54,9 @@ class ClienteController extends Controller
         $cliente = Cliente::find($id);
 
         if (!$cliente) {
-            return response()->json(['message' => 'Cliente no encontrado'], 404);
+            return response()->json([
+                'message' => 'Cliente no encontrado',
+            ], 404);
         }
 
         return response()->json($cliente, 200);
@@ -61,26 +67,32 @@ class ClienteController extends Controller
         $cliente = Cliente::find($id);
 
         if (!$cliente) {
-            return response()->json(['message' => 'Cliente no encontrado'], 404);
+            return response()->json([
+                'message' => 'Cliente no encontrado',
+            ], 404);
         }
 
         $request->validate([
+            'dni' => 'nullable|string|size:8|unique:clientes,dni,' . $id . ',id_cliente',
             'nombres' => 'required|string|max:100',
-            'apellidos' => 'nullable|string|max:100',
-            'documento' => 'nullable|string|max:20|unique:clientes,documento,' . $id . ',id_cliente',
+            'apellidos' => 'required|string|max:100',
             'telefono' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:150|unique:clientes,email,' . $id . ',id_cliente',
+            'fecha_nacimiento' => 'nullable|date',
             'direccion' => 'nullable|string|max:200',
+            'acepta_promociones' => 'boolean',
             'estado' => 'boolean',
         ]);
 
         $cliente->update($request->only([
+            'dni',
             'nombres',
             'apellidos',
-            'documento',
             'telefono',
             'email',
+            'fecha_nacimiento',
             'direccion',
+            'acepta_promociones',
             'estado',
         ]));
 
@@ -95,7 +107,9 @@ class ClienteController extends Controller
         $cliente = Cliente::find($id);
 
         if (!$cliente) {
-            return response()->json(['message' => 'Cliente no encontrado'], 404);
+            return response()->json([
+                'message' => 'Cliente no encontrado',
+            ], 404);
         }
 
         $cliente->delete();

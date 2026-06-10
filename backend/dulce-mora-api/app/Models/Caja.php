@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Modelo: Caja
  * Tabla: cajas
- * Uso: Gestiona apertura y cierre de caja por sede.
+ * Uso: Gestiona apertura, cierre y control de caja por sede.
  */
 class Caja extends Model
 {

@@ -14,7 +14,9 @@ class PromocionProductoController extends Controller
 {
     public function index()
     {
-        $data = PromocionProducto::with(['promocion', 'producto'])->get();
+        $data = PromocionProducto::with(['promocion', 'producto'])
+            ->orderBy('id_promocion_producto', 'desc')
+            ->get();
 
         return response()->json($data, 200);
     }
@@ -26,10 +28,23 @@ class PromocionProductoController extends Controller
             'id_producto' => 'required|exists:productos,id_producto',
         ]);
 
-        $relacion = PromocionProducto::create($request->only([
-            'id_promocion',
-            'id_producto',
-        ]));
+        $existe = PromocionProducto::where('id_promocion', $request->id_promocion)
+            ->where('id_producto', $request->id_producto)
+            ->first();
+
+        if ($existe) {
+            return response()->json([
+                'message' => 'Este producto ya está asignado a la promoción.',
+                'data' => $existe,
+            ], 409);
+        }
+
+        $relacion = PromocionProducto::create([
+            'id_promocion' => $request->id_promocion,
+            'id_producto' => $request->id_producto,
+        ]);
+
+        $relacion->load(['promocion', 'producto']);
 
         return response()->json([
             'message' => 'Producto asignado a promoción correctamente',
@@ -42,7 +57,9 @@ class PromocionProductoController extends Controller
         $relacion = PromocionProducto::with(['promocion', 'producto'])->find($id);
 
         if (!$relacion) {
-            return response()->json(['message' => 'Relación no encontrada'], 404);
+            return response()->json([
+                'message' => 'Relación no encontrada',
+            ], 404);
         }
 
         return response()->json($relacion, 200);
@@ -53,7 +70,9 @@ class PromocionProductoController extends Controller
         $relacion = PromocionProducto::find($id);
 
         if (!$relacion) {
-            return response()->json(['message' => 'Relación no encontrada'], 404);
+            return response()->json([
+                'message' => 'Relación no encontrada',
+            ], 404);
         }
 
         $request->validate([
@@ -61,10 +80,24 @@ class PromocionProductoController extends Controller
             'id_producto' => 'required|exists:productos,id_producto',
         ]);
 
-        $relacion->update($request->only([
-            'id_promocion',
-            'id_producto',
-        ]));
+        $existe = PromocionProducto::where('id_promocion', $request->id_promocion)
+            ->where('id_producto', $request->id_producto)
+            ->where('id_promocion_producto', '!=', $id)
+            ->first();
+
+        if ($existe) {
+            return response()->json([
+                'message' => 'Este producto ya está asignado a la promoción.',
+                'data' => $existe,
+            ], 409);
+        }
+
+        $relacion->update([
+            'id_promocion' => $request->id_promocion,
+            'id_producto' => $request->id_producto,
+        ]);
+
+        $relacion->load(['promocion', 'producto']);
 
         return response()->json([
             'message' => 'Relación actualizada correctamente',
@@ -77,13 +110,15 @@ class PromocionProductoController extends Controller
         $relacion = PromocionProducto::find($id);
 
         if (!$relacion) {
-            return response()->json(['message' => 'Relación no encontrada'], 404);
+            return response()->json([
+                'message' => 'Relación no encontrada',
+            ], 404);
         }
 
         $relacion->delete();
 
         return response()->json([
-            'message' => 'Relación eliminada correctamente',
+            'message' => 'Producto retirado de la promoción correctamente',
         ], 200);
     }
 }

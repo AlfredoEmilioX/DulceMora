@@ -4,99 +4,61 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DetalleCompra;
-use Illuminate\Http\Request;
 
 /**
  * Controlador: DetalleCompraController
- * Uso: CRUD API para detalle de compras.
+ * Uso: Consulta detalles de compras.
  */
 class DetalleCompraController extends Controller
 {
     public function index()
     {
-        return response()->json(
-            DetalleCompra::with(['compra', 'producto'])->get(),
-            200
-        );
-    }
+        $detalles = DetalleCompra::with([
+            'compra.proveedor',
+            'compra.sede',
+            'producto.categoria',
+        ])
+            ->orderBy('id_detalle_compra', 'desc')
+            ->get();
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_compra' => 'required|exists:compras,id_compra',
-            'id_producto' => 'required|exists:productos,id_producto',
-            'cantidad' => 'required|integer|min:1',
-            'precio_unitario' => 'required|numeric|min:0',
-            'subtotal' => 'required|numeric|min:0',
-        ]);
-
-        $detalle = DetalleCompra::create($request->only([
-            'id_compra',
-            'id_producto',
-            'cantidad',
-            'precio_unitario',
-            'subtotal',
-        ]));
-
-        return response()->json([
-            'message' => 'Detalle de compra registrado correctamente',
-            'data' => $detalle,
-        ], 201);
+        return response()->json($detalles, 200);
     }
 
     public function show($id)
     {
-        $detalle = DetalleCompra::with(['compra', 'producto'])->find($id);
+        $detalle = DetalleCompra::with([
+            'compra.proveedor',
+            'compra.sede',
+            'producto.categoria',
+        ])->find($id);
 
         if (!$detalle) {
-            return response()->json(['message' => 'Detalle de compra no encontrado'], 404);
+            return response()->json([
+                'message' => 'Detalle de compra no encontrado',
+            ], 404);
         }
 
         return response()->json($detalle, 200);
     }
 
-    public function update(Request $request, $id)
+    public function store()
     {
-        $detalle = DetalleCompra::find($id);
-
-        if (!$detalle) {
-            return response()->json(['message' => 'Detalle de compra no encontrado'], 404);
-        }
-
-        $request->validate([
-            'id_compra' => 'required|exists:compras,id_compra',
-            'id_producto' => 'required|exists:productos,id_producto',
-            'cantidad' => 'required|integer|min:1',
-            'precio_unitario' => 'required|numeric|min:0',
-            'subtotal' => 'required|numeric|min:0',
-        ]);
-
-        $detalle->update($request->only([
-            'id_compra',
-            'id_producto',
-            'cantidad',
-            'precio_unitario',
-            'subtotal',
-        ]));
-
         return response()->json([
-            'message' => 'Detalle de compra actualizado correctamente',
-            'data' => $detalle,
-        ], 200);
+            'message' => 'Los detalles se registran desde el módulo de compras.',
+        ], 405);
     }
 
-    public function destroy($id)
+    public function update()
     {
-        $detalle = DetalleCompra::find($id);
-
-        if (!$detalle) {
-            return response()->json(['message' => 'Detalle de compra no encontrado'], 404);
-        }
-
-        $detalle->delete();
-
         return response()->json([
-            'message' => 'Detalle de compra eliminado correctamente',
-        ], 200);
+            'message' => 'Los detalles de compra no se editan directamente.',
+        ], 405);
+    }
+
+    public function destroy()
+    {
+        return response()->json([
+            'message' => 'Los detalles de compra no se eliminan directamente.',
+        ], 405);
     }
 }

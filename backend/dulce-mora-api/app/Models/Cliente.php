@@ -15,19 +15,24 @@ class Cliente extends Model
     protected $primaryKey = 'id_cliente';
 
     protected $fillable = [
-        'nombres',
-        'apellidos',
-        'documento',
-        'telefono',
-        'email',
-        'direccion',
-        'estado',
+    'dni',
+    'nombres',
+    'apellidos',
+    'telefono',
+    'email',
+    'fecha_nacimiento',
+    'direccion',
+    'acepta_promociones',
+    'fecha_ultimo_saludo_cumpleanos',
+    'estado',
     ];
 
     protected $casts = [
-        'estado' => 'boolean',
-    ];
-
+    'fecha_nacimiento' => 'date',
+    'fecha_ultimo_saludo_cumpleanos' => 'date',
+    'acepta_promociones' => 'boolean',
+    'estado' => 'boolean',
+];
     public function ventas()
     {
         return $this->hasMany(Venta::class, 'id_cliente', 'id_cliente');

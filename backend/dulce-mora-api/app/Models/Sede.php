@@ -21,6 +21,10 @@ class Sede extends Model
         'estado',
     ];
 
+    protected $casts = [
+        'estado' => 'boolean',
+    ];
+
     public function usuarios()
     {
         return $this->hasMany(Usuario::class, 'id_sede', 'id_sede');

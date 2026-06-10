@@ -14,7 +14,11 @@ class ProveedorController extends Controller
 {
     public function index()
     {
-        return response()->json(Proveedor::all(), 200);
+        $proveedores = Proveedor::withCount('compras')
+            ->orderBy('id_proveedor', 'desc')
+            ->get();
+
+        return response()->json($proveedores, 200);
     }
 
     public function store(Request $request)
@@ -25,17 +29,19 @@ class ProveedorController extends Controller
             'telefono' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:150',
             'direccion' => 'nullable|string|max:200',
-            'estado' => 'boolean',
+            'estado' => 'nullable|boolean',
         ]);
 
-        $proveedor = Proveedor::create($request->only([
-            'razon_social',
-            'ruc',
-            'telefono',
-            'email',
-            'direccion',
-            'estado',
-        ]));
+        $proveedor = Proveedor::create([
+            'razon_social' => $request->razon_social,
+            'ruc' => $request->ruc,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'direccion' => $request->direccion,
+            'estado' => $request->has('estado') ? $request->estado : true,
+        ]);
+
+        $proveedor->loadCount('compras');
 
         return response()->json([
             'message' => 'Proveedor registrado correctamente',
@@ -45,10 +51,12 @@ class ProveedorController extends Controller
 
     public function show($id)
     {
-        $proveedor = Proveedor::find($id);
+        $proveedor = Proveedor::withCount('compras')->find($id);
 
         if (!$proveedor) {
-            return response()->json(['message' => 'Proveedor no encontrado'], 404);
+            return response()->json([
+                'message' => 'Proveedor no encontrado',
+            ], 404);
         }
 
         return response()->json($proveedor, 200);
@@ -59,7 +67,9 @@ class ProveedorController extends Controller
         $proveedor = Proveedor::find($id);
 
         if (!$proveedor) {
-            return response()->json(['message' => 'Proveedor no encontrado'], 404);
+            return response()->json([
+                'message' => 'Proveedor no encontrado',
+            ], 404);
         }
 
         $request->validate([
@@ -68,17 +78,19 @@ class ProveedorController extends Controller
             'telefono' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:150',
             'direccion' => 'nullable|string|max:200',
-            'estado' => 'boolean',
+            'estado' => 'nullable|boolean',
         ]);
 
-        $proveedor->update($request->only([
-            'razon_social',
-            'ruc',
-            'telefono',
-            'email',
-            'direccion',
-            'estado',
-        ]));
+        $proveedor->update([
+            'razon_social' => $request->razon_social,
+            'ruc' => $request->ruc,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'direccion' => $request->direccion,
+            'estado' => $request->has('estado') ? $request->estado : $proveedor->estado,
+        ]);
+
+        $proveedor->loadCount('compras');
 
         return response()->json([
             'message' => 'Proveedor actualizado correctamente',
@@ -91,13 +103,48 @@ class ProveedorController extends Controller
         $proveedor = Proveedor::find($id);
 
         if (!$proveedor) {
-            return response()->json(['message' => 'Proveedor no encontrado'], 404);
+            return response()->json([
+                'message' => 'Proveedor no encontrado',
+            ], 404);
         }
 
-        $proveedor->delete();
+        /*
+         * No se elimina físicamente porque puede tener compras asociadas.
+         * Solo se desactiva.
+         */
+        $proveedor->update([
+            'estado' => false,
+        ]);
+
+        $proveedor->loadCount('compras');
 
         return response()->json([
-            'message' => 'Proveedor eliminado correctamente',
+            'message' => 'Proveedor desactivado correctamente',
+            'data' => $proveedor,
+        ], 200);
+    }
+
+    public function cambiarEstado($id)
+    {
+        $proveedor = Proveedor::find($id);
+
+        if (!$proveedor) {
+            return response()->json([
+                'message' => 'Proveedor no encontrado',
+            ], 404);
+        }
+
+        $proveedor->update([
+            'estado' => !$proveedor->estado,
+        ]);
+
+        $proveedor->loadCount('compras');
+
+        return response()->json([
+            'message' => $proveedor->estado
+                ? 'Proveedor activado correctamente'
+                : 'Proveedor desactivado correctamente',
+            'data' => $proveedor,
         ], 200);
     }
 }

@@ -40,6 +40,11 @@ class Promocion extends Model
             'promocion_productos',
             'id_promocion',
             'id_producto'
-        );
+        )->withPivot('id_promocion_producto');
+    }
+
+    public function promocionProductos()
+    {
+        return $this->hasMany(PromocionProducto::class, 'id_promocion', 'id_promocion');
     }
 }

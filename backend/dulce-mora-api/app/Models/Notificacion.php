@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Modelo: Notificacion
  * Tabla: notificaciones
- * Uso: Gestiona avisos internos para usuarios.
  */
 class Notificacion extends Model
 {

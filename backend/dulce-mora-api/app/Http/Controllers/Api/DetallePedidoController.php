@@ -4,98 +4,61 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DetallePedido;
-use Illuminate\Http\Request;
 
 /**
  * Controlador: DetallePedidoController
- * Uso: CRUD API para detalle de pedidos.
+ * Uso: Consulta detalles de pedidos.
  */
 class DetallePedidoController extends Controller
 {
     public function index()
     {
-        $detalles = DetallePedido::with(['pedido', 'producto'])->get();
+        $detalles = DetallePedido::with([
+            'pedido.cliente',
+            'pedido.sede',
+            'producto.categoria',
+        ])
+            ->orderBy('id_detalle_pedido', 'desc')
+            ->get();
 
         return response()->json($detalles, 200);
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_pedido' => 'required|exists:pedidos,id_pedido',
-            'id_producto' => 'required|exists:productos,id_producto',
-            'cantidad' => 'required|integer|min:1',
-            'precio_unitario' => 'required|numeric|min:0',
-            'subtotal' => 'required|numeric|min:0',
-        ]);
-
-        $detalle = DetallePedido::create($request->only([
-            'id_pedido',
-            'id_producto',
-            'cantidad',
-            'precio_unitario',
-            'subtotal',
-        ]));
-
-        return response()->json([
-            'message' => 'Detalle de pedido registrado correctamente',
-            'data' => $detalle,
-        ], 201);
-    }
-
     public function show($id)
     {
-        $detalle = DetallePedido::with(['pedido', 'producto'])->find($id);
+        $detalle = DetallePedido::with([
+            'pedido.cliente',
+            'pedido.sede',
+            'producto.categoria',
+        ])->find($id);
 
         if (!$detalle) {
-            return response()->json(['message' => 'Detalle de pedido no encontrado'], 404);
+            return response()->json([
+                'message' => 'Detalle de pedido no encontrado',
+            ], 404);
         }
 
         return response()->json($detalle, 200);
     }
 
-    public function update(Request $request, $id)
+    public function store()
     {
-        $detalle = DetallePedido::find($id);
-
-        if (!$detalle) {
-            return response()->json(['message' => 'Detalle de pedido no encontrado'], 404);
-        }
-
-        $request->validate([
-            'id_pedido' => 'required|exists:pedidos,id_pedido',
-            'id_producto' => 'required|exists:productos,id_producto',
-            'cantidad' => 'required|integer|min:1',
-            'precio_unitario' => 'required|numeric|min:0',
-            'subtotal' => 'required|numeric|min:0',
-        ]);
-
-        $detalle->update($request->only([
-            'id_pedido',
-            'id_producto',
-            'cantidad',
-            'precio_unitario',
-            'subtotal',
-        ]));
-
         return response()->json([
-            'message' => 'Detalle de pedido actualizado correctamente',
-            'data' => $detalle,
-        ], 200);
+            'message' => 'Los detalles se registran desde el módulo de pedidos.',
+        ], 405);
     }
 
-    public function destroy($id)
+    public function update()
     {
-        $detalle = DetallePedido::find($id);
-
-        if (!$detalle) {
-            return response()->json(['message' => 'Detalle de pedido no encontrado'], 404);
-        }
-
-        $detalle->delete();
-
         return response()->json([
-            'message' => 'Detalle de pedido eliminado correctamente',
-        ], 200);
+            'message' => 'Los detalles de pedido no se editan directamente.',
+        ], 405);
+    }
+
+    public function destroy()
+    {
+        return response()->json([
+            'message' => 'Los detalles de pedido no se eliminan directamente.',
+        ], 405);
     }
 }
