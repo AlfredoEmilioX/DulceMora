@@ -1,0 +1,269 @@
+/* =========================
+   ADMIN PROMOCIONES
+========================= */
+
+.nueva-promocion-btn {
+  border: none;
+  background: #d7659b;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 12px 25px rgba(215, 101, 155, 0.2);
+}
+
+.promociones-toolbar {
+  margin-bottom: 20px;
+}
+
+.promociones-search {
+  max-width: 620px;
+  margin-bottom: 0;
+}
+
+.promociones-grid-admin {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.promocion-admin-card {
+  background: #ffffff;
+  border: 1px solid #f3d5e3;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 14px 35px rgba(53, 32, 60, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.promocion-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.promocion-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: #fde8f1;
+  color: #d7659b;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+}
+
+.promocion-admin-card h3 {
+  color: #35203c;
+  font-size: 21px;
+  margin: 0 0 8px;
+}
+
+.promocion-admin-card p {
+  color: #7d687a;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 14px;
+  min-height: 42px;
+}
+
+.promocion-descuento {
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.promocion-descuento span {
+  display: block;
+  color: #9a8295;
+  font-weight: 800;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.promocion-descuento strong {
+  color: #d7659b;
+  font-size: 26px;
+}
+
+.promocion-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.promocion-datos span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6f5c70;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.promocion-datos svg {
+  color: #d7659b;
+}
+
+.promocion-productos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #fff8fb;
+  border: 1px dashed #f0cfe0;
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.promocion-productos-lista span {
+  background: #ffffff;
+  border: 1px solid #f3d5e3;
+  color: #5a445d;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.promocion-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.promocion-modal-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.promocion-modal-form label,
+.promocion-productos-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #35203c;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.promocion-modal-form input,
+.promocion-modal-form select,
+.promocion-modal-form textarea,
+.promocion-productos-form select {
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  border-radius: 15px;
+  padding: 0 14px;
+  color: #35203c;
+  font-weight: 700;
+  outline: none;
+}
+
+.promocion-modal-form input,
+.promocion-modal-form select,
+.promocion-productos-form select {
+  height: 46px;
+}
+
+.promocion-modal-form textarea {
+  min-height: 100px;
+  padding-top: 14px;
+  resize: vertical;
+}
+
+.promocion-modal-form input:focus,
+.promocion-modal-form select:focus,
+.promocion-modal-form textarea:focus,
+.promocion-productos-form select:focus {
+  border-color: #d7659b;
+  box-shadow: 0 0 0 4px rgba(215, 101, 155, 0.1);
+}
+
+.promocion-modal-full {
+  grid-column: 1 / -1;
+}
+
+.promocion-modal-actions {
+  grid-column: 1 / -1;
+}
+
+.promocion-productos-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 24px;
+}
+
+.promocion-productos-form button {
+  height: 46px;
+  border: none;
+  border-radius: 15px;
+  background: #d7659b;
+  color: #ffffff;
+  font-weight: 900;
+  padding: 0 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.promocion-productos-asignados h3 {
+  color: #35203c;
+  margin: 0 0 14px;
+}
+
+.promocion-producto-row {
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.promocion-producto-row strong {
+  display: block;
+  color: #35203c;
+  margin-bottom: 4px;
+}
+
+.promocion-producto-row small {
+  color: #d7659b;
+  font-weight: 900;
+}
+
+@media (max-width: 1300px) {
+  .promociones-grid-admin {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .promociones-grid-admin,
+  .promocion-modal-form,
+  .promocion-productos-form {
+    grid-template-columns: 1fr;
+  }
+
+  .promocion-producto-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

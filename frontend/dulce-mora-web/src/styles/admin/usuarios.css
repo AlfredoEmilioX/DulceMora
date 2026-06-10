@@ -1,0 +1,241 @@
+/* =========================
+   ADMIN USUARIOS
+========================= */
+
+.usuarios-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.usuarios-summary article {
+  background: #ffffff;
+  border: 1px solid #f3d5e3;
+  border-radius: 22px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 14px 35px rgba(53, 32, 60, 0.06);
+}
+
+.usuarios-summary-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background: #fde8f1;
+  color: #d7659b;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.usuarios-summary-icon.activo {
+  background: #eafff1;
+  color: #087a3b;
+}
+
+.usuarios-summary-icon.inactivo {
+  background: #ffecec;
+  color: #c62828;
+}
+
+.usuarios-summary-icon.admin {
+  background: #f0e7ff;
+  color: #7b3fc4;
+}
+
+.usuarios-summary span {
+  display: block;
+  color: #8a7287;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.usuarios-summary strong {
+  color: #35203c;
+  font-size: 24px;
+}
+
+.nuevo-usuario-btn {
+  border: none;
+  background: #d7659b;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 12px 25px rgba(215, 101, 155, 0.2);
+}
+
+.usuarios-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.usuarios-search {
+  margin-bottom: 0;
+}
+
+.usuarios-select {
+  height: 46px;
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  color: #35203c;
+  border-radius: 15px;
+  padding: 0 14px;
+  font-weight: 800;
+  outline: none;
+}
+
+.usuarios-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.usuarios-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1050px;
+}
+
+.usuarios-table th {
+  text-align: left;
+  background: #fff8fb;
+  color: #d7659b;
+  font-size: 13px;
+  padding: 14px 12px;
+  border-bottom: 1px solid #f0cfe0;
+}
+
+.usuarios-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f3d5e3;
+  color: #5a445d;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.usuarios-table td strong {
+  color: #35203c;
+}
+
+.usuario-info-mini,
+.usuario-rol {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+}
+
+.usuario-info-mini svg,
+.usuario-rol svg {
+  color: #d7659b;
+  flex-shrink: 0;
+}
+
+.usuario-rol {
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-weight: 900;
+  color: #35203c;
+}
+
+.usuario-estado {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.usuario-estado.activo {
+  background: #eafff1;
+  color: #087a3b;
+  border: 1px solid #bff0d0;
+}
+
+.usuario-estado.inactivo {
+  background: #ffecec;
+  color: #c62828;
+  border: 1px solid #ffc9c9;
+}
+
+.usuarios-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.usuario-modal {
+  width: min(820px, 94vw);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.usuario-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.usuario-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #35203c;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.usuario-form input,
+.usuario-form select {
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  border-radius: 15px;
+  padding: 0 14px;
+  color: #35203c;
+  font-weight: 700;
+  outline: none;
+  height: 46px;
+}
+
+.usuario-form input:focus,
+.usuario-form select:focus {
+  border-color: #d7659b;
+  box-shadow: 0 0 0 4px rgba(215, 101, 155, 0.1);
+}
+
+.usuario-actions-modal {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1200px) {
+  .usuarios-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .usuarios-toolbar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .usuarios-summary,
+  .usuario-form {
+    grid-template-columns: 1fr;
+  }
+
+  .usuario-actions-modal {
+    grid-column: auto;
+  }
+}

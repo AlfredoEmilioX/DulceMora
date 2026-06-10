@@ -1,7 +1,10 @@
 import { useState } from "react";
-import api from "../api/axios";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../api/axios";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("admin@dulcemora.com");
   const [password, setPassword] = useState("12345678");
   const [loading, setLoading] = useState(false);
@@ -20,6 +23,11 @@ function Login() {
 
       const { token, usuario } = response.data;
 
+      if (!token || !usuario) {
+        setMensaje("Respuesta inválida del servidor");
+        return;
+      }
+
       localStorage.setItem("token", token);
       localStorage.setItem("usuario", JSON.stringify(usuario));
 
@@ -27,6 +35,18 @@ function Login() {
 
       console.log("Token:", token);
       console.log("Usuario:", usuario);
+
+      setTimeout(() => {
+        if (usuario.id_rol === 1) {
+          navigate("/admin/reportes");
+        } else if (usuario.id_rol === 2) {
+          navigate("/admin/ventas");
+        } else if (usuario.id_rol === 3) {
+          navigate("/mi-cuenta");
+        } else {
+          navigate("/");
+        }
+      }, 500);
     } catch (error) {
       console.error(error);
 
@@ -52,6 +72,7 @@ function Login() {
           placeholder="admin@dulcemora.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
 
         <label>Contraseña</label>
@@ -60,11 +81,16 @@ function Login() {
           placeholder="********"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
 
         <button type="submit" disabled={loading}>
           {loading ? "Ingresando..." : "Iniciar sesión"}
         </button>
+
+        <Link to="/" className="volver-web">
+          Volver a la web
+        </Link>
 
         {mensaje && <div className="mensaje">{mensaje}</div>}
       </form>

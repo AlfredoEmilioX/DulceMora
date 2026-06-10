@@ -1,0 +1,293 @@
+/* =========================
+   ADMIN INVENTARIO
+========================= */
+
+.inventario-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.inventario-summary article {
+  background: #ffffff;
+  border: 1px solid #f3d5e3;
+  border-radius: 22px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 14px 35px rgba(53, 32, 60, 0.06);
+}
+
+.inventario-summary-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background: #fde8f1;
+  color: #d7659b;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.inventario-summary-icon.warning {
+  background: #fff3df;
+  color: #d98b16;
+}
+
+.inventario-summary-icon.inactive {
+  background: #ffecec;
+  color: #c62828;
+}
+
+.inventario-summary span {
+  display: block;
+  color: #8a7287;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.inventario-summary strong {
+  color: #35203c;
+  font-size: 26px;
+}
+
+.inventario-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.inventario-search {
+  margin-bottom: 0;
+}
+
+.inventario-select {
+  height: 48px;
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  color: #35203c;
+  border-radius: 15px;
+  padding: 0 14px;
+  font-weight: 800;
+  outline: none;
+}
+
+.inventario-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.inventario-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+}
+
+.inventario-table th {
+  text-align: left;
+  background: #fff8fb;
+  color: #d7659b;
+  font-size: 13px;
+  padding: 14px 12px;
+  border-bottom: 1px solid #f0cfe0;
+}
+
+.inventario-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f3d5e3;
+  color: #5a445d;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.inventario-table td strong {
+  color: #35203c;
+}
+
+.inventario-sede {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 800;
+}
+
+.inventario-sede svg {
+  color: #d7659b;
+}
+
+.inventario-cantidad {
+  font-size: 18px;
+}
+
+.stock-badge-ok,
+.stock-badge-bajo,
+.stock-badge-inactivo {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.stock-badge-ok {
+  background: #eafff1;
+  color: #087a3b;
+  border: 1px solid #bff0d0;
+}
+
+.stock-badge-bajo {
+  background: #fff3df;
+  color: #b96a00;
+  border: 1px solid #ffd99a;
+}
+
+.stock-badge-inactivo {
+  background: #ffecec;
+  color: #c62828;
+  border: 1px solid #ffc9c9;
+}
+
+.inventario-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.inventario-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 11px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.inventario-btn.entrada {
+  background: #eafff1;
+  color: #087a3b;
+}
+
+.inventario-btn.salida {
+  background: #ffecec;
+  color: #c62828;
+}
+
+.inventario-btn.ajuste {
+  background: #fff3df;
+  color: #b96a00;
+}
+
+.movimiento-tipo {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.movimiento-tipo.entrada {
+  background: #eafff1;
+  color: #087a3b;
+}
+
+.movimiento-tipo.salida {
+  background: #ffecec;
+  color: #c62828;
+}
+
+.movimiento-tipo.ajuste {
+  background: #fff3df;
+  color: #b96a00;
+}
+
+.inventario-modal-info {
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+.inventario-modal-info p {
+  margin: 5px 0;
+  color: #5a445d;
+}
+
+.inventario-modal-info strong {
+  color: #35203c;
+}
+
+.inventario-modal-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.inventario-modal-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #35203c;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.inventario-modal-form input,
+.inventario-modal-form select,
+.inventario-modal-form textarea {
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  border-radius: 15px;
+  padding: 0 14px;
+  color: #35203c;
+  font-weight: 700;
+  outline: none;
+}
+
+.inventario-modal-form input,
+.inventario-modal-form select {
+  height: 46px;
+}
+
+.inventario-modal-form textarea {
+  min-height: 100px;
+  padding-top: 14px;
+  resize: vertical;
+}
+
+.inventario-modal-form input:focus,
+.inventario-modal-form select:focus,
+.inventario-modal-form textarea:focus {
+  border-color: #d7659b;
+  box-shadow: 0 0 0 4px rgba(215, 101, 155, 0.1);
+}
+
+.inventario-modal-full,
+.inventario-modal-actions {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1200px) {
+  .inventario-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inventario-toolbar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .inventario-summary,
+  .inventario-modal-form {
+    grid-template-columns: 1fr;
+  }
+}

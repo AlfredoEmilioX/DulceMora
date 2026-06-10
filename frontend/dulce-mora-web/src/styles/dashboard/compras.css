@@ -1,0 +1,393 @@
+/* =========================
+   ADMIN COMPRAS
+========================= */
+
+.compras-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.compras-summary article {
+  background: #ffffff;
+  border: 1px solid #f3d5e3;
+  border-radius: 22px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 14px 35px rgba(53, 32, 60, 0.06);
+}
+
+.compras-summary-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background: #fde8f1;
+  color: #d7659b;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.compras-summary-icon.warning {
+  background: #ffecec;
+  color: #c62828;
+}
+
+.compras-summary-icon.money {
+  background: #eafff1;
+  color: #087a3b;
+}
+
+.compras-summary span {
+  display: block;
+  color: #8a7287;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.compras-summary strong {
+  color: #35203c;
+  font-size: 24px;
+}
+
+.nueva-compra-btn {
+  border: none;
+  background: #d7659b;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 12px 25px rgba(215, 101, 155, 0.2);
+}
+
+.compras-toolbar {
+  margin-bottom: 20px;
+}
+
+.compras-search {
+  max-width: 680px;
+  margin-bottom: 0;
+}
+
+.compras-table-wrap,
+.compra-detalle-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.compras-table,
+.compra-detalle-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+}
+
+.compras-table th,
+.compra-detalle-table th {
+  text-align: left;
+  background: #fff8fb;
+  color: #d7659b;
+  font-size: 13px;
+  padding: 14px 12px;
+  border-bottom: 1px solid #f0cfe0;
+}
+
+.compras-table td,
+.compra-detalle-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f3d5e3;
+  color: #5a445d;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.compras-table td strong,
+.compra-detalle-table td strong {
+  color: #35203c;
+}
+
+.compra-sede {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 800;
+}
+
+.compra-sede svg {
+  color: #d7659b;
+}
+
+.compra-estado {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.compra-estado.registrada {
+  background: #eafff1;
+  color: #087a3b;
+  border: 1px solid #bff0d0;
+}
+
+.compra-estado.anulada {
+  background: #ffecec;
+  color: #c62828;
+  border: 1px solid #ffc9c9;
+}
+
+.compras-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* MODAL COMPRA */
+
+.compra-modal {
+  width: min(1080px, 94vw);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.compra-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.compra-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.compra-form label,
+.compra-detalle-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #35203c;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.compra-form input,
+.compra-form select,
+.compra-form textarea,
+.compra-detalle-form input,
+.compra-detalle-form select {
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  border-radius: 15px;
+  padding: 0 14px;
+  color: #35203c;
+  font-weight: 700;
+  outline: none;
+}
+
+.compra-form input,
+.compra-form select,
+.compra-detalle-form input,
+.compra-detalle-form select {
+  height: 46px;
+}
+
+.compra-form textarea {
+  min-height: 90px;
+  padding-top: 14px;
+  resize: vertical;
+}
+
+.compra-form input:focus,
+.compra-form select:focus,
+.compra-form textarea:focus,
+.compra-detalle-form input:focus,
+.compra-detalle-form select:focus {
+  border-color: #d7659b;
+  box-shadow: 0 0 0 4px rgba(215, 101, 155, 0.1);
+}
+
+.compra-full {
+  grid-column: span 2;
+}
+
+.compra-detalle-box {
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.compra-detalle-box h3 {
+  margin: 0 0 14px;
+  color: #35203c;
+}
+
+.compra-detalle-form {
+  display: grid;
+  grid-template-columns: 1fr 130px 160px auto;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.compra-detalle-form button {
+  border: none;
+  height: 46px;
+  background: #d7659b;
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 0 18px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mini-delete-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: #ffecec;
+  color: #c62828;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.compra-total-box {
+  margin-left: auto;
+  width: min(360px, 100%);
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.compra-total-box.detalle {
+  margin-top: 18px;
+}
+
+.compra-total-box div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  color: #5a445d;
+  font-weight: 800;
+}
+
+.compra-total-box .total-final {
+  margin-top: 8px;
+  padding: 14px;
+  background: #fde8f1;
+  border-radius: 16px;
+  color: #35203c;
+}
+
+.compra-total-box .total-final strong {
+  color: #d7659b;
+  font-size: 22px;
+}
+
+.compra-actions-modal {
+  margin-top: 4px;
+}
+
+/* DETALLE */
+
+.compra-detalle-modal {
+  width: min(950px, 94vw);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.compra-detalle-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.compra-detalle-info article {
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+}
+
+.compra-detalle-info svg {
+  color: #d7659b;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.compra-detalle-info span {
+  display: block;
+  color: #9a8295;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.compra-detalle-info strong {
+  color: #35203c;
+}
+
+.compra-observacion {
+  margin-top: 18px;
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+
+.compra-observacion strong {
+  color: #35203c;
+}
+
+.compra-observacion p {
+  color: #5a445d;
+  margin: 6px 0 0;
+}
+
+@media (max-width: 1200px) {
+  .compras-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .compra-form-grid,
+  .compra-detalle-info {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .compra-detalle-form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .compras-summary,
+  .compra-form-grid,
+  .compra-detalle-info,
+  .compra-detalle-form {
+    grid-template-columns: 1fr;
+  }
+
+  .compra-full {
+    grid-column: auto;
+  }
+}

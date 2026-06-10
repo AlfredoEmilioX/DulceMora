@@ -1,0 +1,118 @@
+/* =========================
+   COMPROBANTES
+========================= */
+
+.badge-tipo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.badge-tipo.boleta {
+  background: #fde8f1;
+  color: #d7659b;
+}
+
+.badge-tipo.factura {
+  background: #efe7ff;
+  color: #7b4bc4;
+}
+
+.badge-tipo.ticket {
+  background: #fff3d9;
+  color: #c98412;
+}
+
+.badge-estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #eafff1;
+  color: #087a3b;
+  border: 1px solid #b6f0cd;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.detalle-link {
+  text-decoration: none;
+}
+
+.comprobantes-box {
+  margin-top: 24px;
+  background: #fff8fb;
+  border: 1px solid #f3d5e3;
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.comprobantes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comprobante-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #f0cfe0;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.comprobante-item strong {
+  display: block;
+  color: #35203c;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.comprobante-item small {
+  display: block;
+  color: #7d687a;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.comprobante-side {
+  text-align: right;
+  min-width: 120px;
+}
+
+.comprobante-side b {
+  display: block;
+  color: #d7659b;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.comprobante-side span {
+  display: inline-block;
+  background: #eafff1;
+  color: #087a3b;
+  border: 1px solid #b6f0cd;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+@media (max-width: 700px) {
+  .comprobante-item {
+    flex-direction: column;
+  }
+
+  .comprobante-side {
+    text-align: left;
+  }
+}

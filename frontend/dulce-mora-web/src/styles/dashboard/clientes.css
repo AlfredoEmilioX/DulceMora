@@ -1,0 +1,256 @@
+/* =========================
+   ADMIN CLIENTES
+========================= */
+
+.nuevo-cliente-admin-btn {
+  border: none;
+  background: #d7659b;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 12px 25px rgba(215, 101, 155, 0.2);
+}
+
+.clientes-toolbar {
+  margin-bottom: 18px;
+}
+
+.clientes-search {
+  max-width: 560px;
+  margin-bottom: 0;
+}
+
+.cumpleanos-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #fff3d9;
+  color: #c98412;
+  border: 1px solid #ffe0a3;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 900;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.badge-inactivo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff0f0;
+  color: #b42323;
+  border: 1px solid #ffc9c9;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.eliminar-btn {
+  border: none;
+  background: #fff0f0;
+  color: #b42323;
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.eliminar-btn:hover {
+  background: #ffe1e1;
+}
+
+.cliente-modal-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.cliente-modal-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #35203c;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.cliente-modal-form input {
+  height: 46px;
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  border-radius: 15px;
+  padding: 0 14px;
+  color: #35203c;
+  font-weight: 700;
+  outline: none;
+}
+
+.cliente-modal-form input:focus {
+  border-color: #d7659b;
+  box-shadow: 0 0 0 4px rgba(215, 101, 155, 0.1);
+}
+
+.cliente-modal-full {
+  grid-column: 1 / -1;
+}
+
+.cliente-check {
+  flex-direction: row !important;
+  align-items: center;
+  font-weight: 700 !important;
+  color: #6f5c70 !important;
+}
+
+.cliente-check input {
+  width: 18px;
+  height: 18px;
+}
+
+.cliente-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+  grid-column: 1 / -1;
+}
+
+.cliente-modal-actions button {
+  border: none;
+  border-radius: 999px;
+  padding: 13px 22px;
+  font-weight: 900;
+  cursor: pointer;
+  background: #d7659b;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cliente-modal-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cliente-buscador-label {
+  position: relative;
+}
+
+.cliente-buscador {
+  position: relative;
+}
+
+.cliente-buscador input {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  border-radius: 15px;
+  padding: 0 44px 0 14px;
+  color: #35203c;
+  font-weight: 700;
+  outline: none;
+}
+
+.cliente-clear {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  background: #fde8f1;
+  color: #d7659b;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.cliente-resultados {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #ffffff;
+  border: 1px solid #f0cfe0;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(53, 32, 60, 0.12);
+  overflow: hidden;
+}
+
+.cliente-resultados button {
+  width: 100%;
+  border: none;
+  background: #ffffff;
+  padding: 13px 14px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid #f8e4ee;
+}
+
+.cliente-resultados button:hover {
+  background: #fff4f9;
+}
+
+.cliente-resultados strong {
+  color: #35203c;
+  font-size: 14px;
+}
+
+.cliente-resultados small {
+  color: #8a7a8d;
+  font-size: 12px;
+}
+
+.cliente-ayuda {
+  color: #9a8295;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.nuevo-cliente-btn {
+  margin-top: 8px;
+  border: none;
+  background: #fde8f1;
+  color: #d7659b;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+@media (max-width: 700px) {
+  .cliente-modal-form {
+    grid-template-columns: 1fr;
+  }
+
+  .cliente-modal-actions {
+    flex-direction: column;
+  }
+
+  .cliente-modal-actions button {
+    width: 100%;
+  }
+}

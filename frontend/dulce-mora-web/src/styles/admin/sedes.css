@@ -1,0 +1,215 @@
+/* =========================
+   ADMIN SEDES
+========================= */
+
+.sedes-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.sedes-summary article {
+  background: #ffffff;
+  border: 1px solid #f3d5e3;
+  border-radius: 22px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 14px 35px rgba(53, 32, 60, 0.06);
+}
+
+.sedes-summary-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background: #fde8f1;
+  color: #d7659b;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.sedes-summary-icon.activa {
+  background: #eafff1;
+  color: #087a3b;
+}
+
+.sedes-summary-icon.usuarios {
+  background: #f0e7ff;
+  color: #7b3fc4;
+}
+
+.sedes-summary-icon.stock {
+  background: #fff3df;
+  color: #b96a00;
+}
+
+.sedes-summary span {
+  display: block;
+  color: #8a7287;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.sedes-summary strong {
+  color: #35203c;
+  font-size: 24px;
+}
+
+.nueva-sede-btn {
+  border: none;
+  background: #d7659b;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 12px 25px rgba(215, 101, 155, 0.2);
+}
+
+.sedes-toolbar {
+  margin-bottom: 20px;
+}
+
+.sedes-search {
+  max-width: 820px;
+  margin-bottom: 0;
+}
+
+.sedes-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sedes-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.sedes-table th {
+  text-align: left;
+  background: #fff8fb;
+  color: #d7659b;
+  font-size: 13px;
+  padding: 14px 12px;
+  border-bottom: 1px solid #f0cfe0;
+}
+
+.sedes-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f3d5e3;
+  color: #5a445d;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.sedes-table td strong {
+  color: #35203c;
+}
+
+.sede-info-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+}
+
+.sede-info-mini svg {
+  color: #d7659b;
+  flex-shrink: 0;
+}
+
+.sede-estado {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.sede-estado.activa {
+  background: #eafff1;
+  color: #087a3b;
+  border: 1px solid #bff0d0;
+}
+
+.sede-estado.inactiva {
+  background: #ffecec;
+  color: #c62828;
+  border: 1px solid #ffc9c9;
+}
+
+.sedes-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sede-modal {
+  width: min(720px, 94vw);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.sede-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.sede-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #35203c;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.sede-form input,
+.sede-form select {
+  border: 1px solid #f0cfe0;
+  background: #fff8fb;
+  border-radius: 15px;
+  padding: 0 14px;
+  color: #35203c;
+  font-weight: 700;
+  outline: none;
+  height: 46px;
+}
+
+.sede-form input:focus,
+.sede-form select:focus {
+  border-color: #d7659b;
+  box-shadow: 0 0 0 4px rgba(215, 101, 155, 0.1);
+}
+
+.sede-full,
+.sede-actions-modal {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1200px) {
+  .sedes-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .sedes-summary,
+  .sede-form {
+    grid-template-columns: 1fr;
+  }
+
+  .sede-full,
+  .sede-actions-modal {
+    grid-column: auto;
+  }
+}
